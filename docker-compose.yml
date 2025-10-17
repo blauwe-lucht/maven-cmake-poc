@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  nexus:
+    build:
+      context: ./nexus
+      dockerfile: Dockerfile
+    container_name: maven-nar-nexus
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus-data:/nexus-data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: maven-nar-dev
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    depends_on:
+      - nexus
+    command: sleep infinity
+
+volumes:
+  nexus-data:

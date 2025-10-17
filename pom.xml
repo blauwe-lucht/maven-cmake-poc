@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-conan-poc</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>nar</packaging>
+
+    <name>Maven Conan PoC</name>
+    <description>Proof of concept comparing Maven NAR vs Maven+Conan/CMake builds - consuming NAR dependencies</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <nar.version>3.10.1</nar.version>
+    </properties>
+
+    <dependencies>
+        <!-- Using Boost NAR from local Nexus -->
+        <dependency>
+            <groupId>uk.co.froot.maven.nar</groupId>
+            <artifactId>boost-system</artifactId>
+            <version>1.58.0</version>
+            <type>nar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <version>${nar.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <cpp>
+                        <name>g++</name>
+                        <debug>true</debug>
+                        <defines>
+                            <define>_GLIBCXX_USE_CXX11_ABI=0</define>
+                        </defines>
+                        <options>
+                            <option>-std=c++11</option>
+                            <option>-Wall</option>
+                        </options>
+                    </cpp>
+                    <linker>
+                        <name>g++</name>
+                    </linker>
+                    <libraries>
+                        <library>
+                            <type>executable</type>
+                        </library>
+                    </libraries>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Local Nexus repository -->
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus:8081/repository/maven-nar-releases/</url>
+        </repository>
+    </repositories>
+</project>
