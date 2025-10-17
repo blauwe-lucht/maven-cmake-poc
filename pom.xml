@@ -33,6 +33,12 @@
             <version>1.57.0+nar.10</version>
             <type>nar</type>
         </dependency>
+        <dependency>
+            <groupId>org.boost</groupId>
+            <artifactId>system</artifactId>
+            <version>1.57.0+nar.10</version>
+            <type>nar</type>
+        </dependency>
     </dependencies>
 
     <build>
