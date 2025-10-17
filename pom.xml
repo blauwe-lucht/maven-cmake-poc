@@ -20,11 +20,17 @@
     </properties>
 
     <dependencies>
-        <!-- Using Boost NAR from local Nexus -->
+        <!-- Using Boost NAR from local Nexus (deployed from boost-nar repo) -->
         <dependency>
-            <groupId>uk.co.froot.maven.nar</groupId>
-            <artifactId>boost-system</artifactId>
-            <version>1.58.0</version>
+            <groupId>org.boost</groupId>
+            <artifactId>core</artifactId>
+            <version>1.57.0+nar.10</version>
+            <type>nar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.boost</groupId>
+            <artifactId>config</artifactId>
+            <version>1.57.0+nar.10</version>
             <type>nar</type>
         </dependency>
     </dependencies>

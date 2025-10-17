@@ -25,6 +25,10 @@ RUN pip3 install conan
 RUN useradd -m -s /bin/bash developer && \
     echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+# Copy Maven settings to configure Nexus
+COPY .devcontainer/settings.xml /home/developer/.m2/settings.xml
+RUN chown -R developer:developer /home/developer/.m2
+
 # Set up environment
 ENV JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
 ENV PATH="${PATH}:/usr/local/bin"

@@ -1,8 +1,8 @@
 {
   "name": "Maven Conan PoC - AlmaLinux 9",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
   "postCreateCommand": "mvn --version && g++ --version && conan --version",
   "remoteUser": "developer"
 }
