@@ -3,3 +3,9 @@
 
 # Maven generated files
 /target
+
+# Generated CMakeLists.txt
+CMakeLists.txt
+
+# CMake generated files
+/build
