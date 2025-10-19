@@ -1,23 +1,27 @@
 #!/bin/bash
 set -euo pipefail
 
-NAR_DIR="target/nar"
+# Find all NAR directories in module target directories
+NAR_DIRS=$(find . -type d -path "*/target/nar" | sort)
 
-if [ ! -d "$NAR_DIR" ]; then
-    echo "Error: $NAR_DIR not found. Run 'mvn compile' first to extract NAR dependencies."
+if [ -z "$NAR_DIRS" ]; then
+    echo "Error: No target/nar directories found. Run 'mvn compile' first to extract NAR dependencies."
     exit 1
 fi
 
 echo "Generating CMakeLists.txt from Maven NAR dependencies..."
+echo "Found NAR directories:"
+echo "$NAR_DIRS" | sed 's/^/  - /'
+echo ""
 
-# Find all include directories
-INCLUDE_DIRS=$(find "$NAR_DIR" -type d -name include | sort)
+# Find all include directories across all modules
+INCLUDE_DIRS=$(find . -type d -path "*/target/nar/*/include" | sort)
 
-# Find all library directories
-LIB_DIRS=$(find "$NAR_DIR" -type d -path "*/lib/*/shared" | sort)
+# Find all library directories across all modules
+LIB_DIRS=$(find . -type d -path "*/target/nar/*/lib/*/shared" | sort)
 
-# Find all shared libraries
-LIBRARIES=$(find "$NAR_DIR" -name "*.so" -type f | xargs -n1 basename | sed 's/^lib//; s/\.so$//' | sort)
+# Find all shared libraries across all modules
+LIBRARIES=$(find . -path "*/target/nar/*" -name "*.so" -type f | xargs -n1 basename | sed 's/^lib//; s/\.so$//' | sort -u)
 
 cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
@@ -25,9 +29,6 @@ project(maven-conan-poc)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Path to NAR extracted dependencies
-set(NAR_DIR ${CMAKE_SOURCE_DIR}/target/nar)
 
 # NAR include directories
 EOF
@@ -49,8 +50,8 @@ cat >> CMakeLists.txt <<'EOF'
 
 # Source files
 set(SOURCES
-    src/main/c++/main.cpp
-    src/main/c++/calculator.cpp
+    app/src/main/c++/main.cpp
+    calculator/src/main/c++/calculator.cpp
 )
 
 # Create executable
@@ -74,7 +75,7 @@ set_target_properties(maven-conan-poc PROPERTIES
 )
 
 # Print configuration
-message(STATUS "Found NAR dependencies in: ${NAR_DIR}")
+message(STATUS "Multi-module Maven project with NAR dependencies")
 EOF
 
 echo "Generated CMakeLists.txt successfully!"
