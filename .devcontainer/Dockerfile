@@ -18,9 +18,6 @@ RUN dnf -y update && \
     time \
     && dnf clean all
 
-# Install Conan
-RUN pip3 install conan
-
 # Create non-root user
 RUN useradd -m -s /bin/bash developer && \
     echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -39,5 +36,4 @@ WORKDIR /workspace
 # Verify installations
 RUN mvn --version && \
     g++ --version && \
-    conan --version && \
     cmake --version
