@@ -2,7 +2,7 @@
 .claude
 
 # Maven generated files
-/target
+target
 
 # Generated CMakeLists.txt
 CMakeLists.txt

@@ -5,12 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>maven-conan-poc</artifactId>
+    <artifactId>maven-conan-poc-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>nar</packaging>
+    <packaging>pom</packaging>
 
-    <name>Maven Conan PoC</name>
+    <name>Maven Conan PoC - Parent</name>
     <description>Proof of concept comparing Maven NAR vs Maven+Conan/CMake builds - consuming NAR dependencies</description>
+
+    <modules>
+        <module>calculator</module>
+        <module>app</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,58 +24,16 @@
         <nar.version>3.10.1</nar.version>
     </properties>
 
-    <dependencies>
-        <!-- Using Boost NAR from local Nexus (deployed from boost-nar repo) -->
-        <dependency>
-            <groupId>org.boost</groupId>
-            <artifactId>core</artifactId>
-            <version>1.57.0+nar.10</version>
-            <type>nar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.boost</groupId>
-            <artifactId>config</artifactId>
-            <version>1.57.0+nar.10</version>
-            <type>nar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.boost</groupId>
-            <artifactId>system</artifactId>
-            <version>1.57.0+nar.10</version>
-            <type>nar</type>
-        </dependency>
-    </dependencies>
-
     <build>
-        <plugins>
-            <plugin>
-                <groupId>com.github.maven-nar</groupId>
-                <artifactId>nar-maven-plugin</artifactId>
-                <version>${nar.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <cpp>
-                        <name>g++</name>
-                        <debug>true</debug>
-                        <defines>
-                            <define>_GLIBCXX_USE_CXX11_ABI=0</define>
-                        </defines>
-                        <options>
-                            <option>-std=c++11</option>
-                            <option>-Wall</option>
-                        </options>
-                    </cpp>
-                    <linker>
-                        <name>g++</name>
-                    </linker>
-                    <libraries>
-                        <library>
-                            <type>executable</type>
-                        </library>
-                    </libraries>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.github.maven-nar</groupId>
+                    <artifactId>nar-maven-plugin</artifactId>
+                    <version>${nar.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <!-- Local Nexus repository -->

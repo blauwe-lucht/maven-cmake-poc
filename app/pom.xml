@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>maven-conan-poc-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>app</artifactId>
+    <packaging>nar</packaging>
+
+    <name>Application</name>
+    <description>Main application using calculator library and Boost dependencies</description>
+
+    <dependencies>
+        <!-- Calculator library -->
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>calculator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>nar</type>
+        </dependency>
+
+        <!-- Using Boost NAR from local Nexus -->
+        <dependency>
+            <groupId>org.boost</groupId>
+            <artifactId>core</artifactId>
+            <version>1.57.0+nar.10</version>
+            <type>nar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.boost</groupId>
+            <artifactId>config</artifactId>
+            <version>1.57.0+nar.10</version>
+            <type>nar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.boost</groupId>
+            <artifactId>system</artifactId>
+            <version>1.57.0+nar.10</version>
+            <type>nar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <cpp>
+                        <name>g++</name>
+                        <debug>true</debug>
+                        <defines>
+                            <define>_GLIBCXX_USE_CXX11_ABI=0</define>
+                        </defines>
+                        <options>
+                            <option>-std=c++11</option>
+                            <option>-Wall</option>
+                        </options>
+                    </cpp>
+                    <linker>
+                        <name>g++</name>
+                    </linker>
+                    <libraries>
+                        <library>
+                            <type>executable</type>
+                        </library>
+                    </libraries>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
