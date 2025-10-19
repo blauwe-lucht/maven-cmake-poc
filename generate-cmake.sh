@@ -25,7 +25,7 @@ LIBRARIES=$(find . -path "*/target/nar/*" -name "*.so" -type f | xargs -n1 basen
 
 cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
-project(maven-conan-poc)
+project(maven-cmake-poc)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -55,10 +55,10 @@ set(SOURCES
 )
 
 # Create executable
-add_executable(maven-conan-poc ${SOURCES})
+add_executable(maven-cmake-poc ${SOURCES})
 
 # Link against NAR libraries
-target_link_libraries(maven-conan-poc
+target_link_libraries(maven-cmake-poc
 EOF
 
 for lib in $LIBRARIES; do
@@ -69,7 +69,7 @@ cat >> CMakeLists.txt <<'EOF'
 )
 
 # Set RPATH for finding shared libraries at runtime
-set_target_properties(maven-conan-poc PROPERTIES
+set_target_properties(maven-cmake-poc PROPERTIES
     BUILD_RPATH_USE_ORIGIN TRUE
     INSTALL_RPATH "\$ORIGIN/../lib"
 )
