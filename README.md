@@ -145,8 +145,6 @@ Plus 37 more Boost modules available in Nexus (filesystem, regex, asio, etc.)
 
 ## Next Steps
 
-- [x] Multi-module Maven project structure
-- [x] Nexus with pre-populated Boost NAR artifacts
-- [x] CMake build generation from Maven dependencies
 - [ ] Add GTest to Nexus for unit testing
 - [ ] Build time comparison benchmarks
+- [ ] Use lld instead of ld to speed up link step

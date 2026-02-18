@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 int Calculator::add(int a, int b) {
+    // TODO: add logging
     return a + b;
 }
 
